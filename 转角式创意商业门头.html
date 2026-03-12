@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古月AI智能体 · 转角式创意商业门头设计提示词生成器</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Microsoft YaHei",sans-serif;}
+body{
+  background: linear-gradient(135deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+  min-height:100vh;
+  color:#fff;
+  padding:60px;
+}
+@keyframes gradientBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.container{max-width:1200px;margin:auto;}
+h1{text-align:center;font-size:32px;margin-bottom:40px;font-weight:800;text-shadow:2px 2px 6px rgba(0,0,0,0.6);}
+.card{
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(20px);
+  padding:30px;
+  border-radius:25px;
+  border:2px solid;
+  border-image: linear-gradient(45deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb) 1;
+  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+  margin-bottom:30px;
+  transition:0.3s;
+}
+.card:hover{transform:translateY(-3px) scale(1.02);}
+label{font-size:14px;opacity:0.9;color:#fff;}
+input{
+  width:100%;
+  padding:14px;
+  margin-top:8px;
+  margin-bottom:18px;
+  background:rgba(0,0,0,0.4);
+  border:1px solid #fff;
+  border-radius:12px;
+  color:white;
+  font-size:16px;
+}
+button{
+  padding:14px 20px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:700;
+  background: linear-gradient(135deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb);
+  color:#000;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);
+  transition:0.3s;
+}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,0.6);}
+.generate{width:100%;margin-top:10px;}
+.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(450px,1fr));gap:20px;}
+.promptCard{
+  background:rgba(0,0,0,0.65);
+  border-radius:18px;
+  border-left:5px solid #fcb69f;
+  border-top:5px solid #ffecd2;
+  padding:22px;
+  line-height:1.8;
+  position:relative;
+  box-shadow:0 10px 25px rgba(0,0,0,0.5);
+  transition:0.3s;
+}
+.promptCard:hover{transform:scale(1.02);}
+.promptTitle{font-size:18px;font-weight:800;margin-bottom:10px;color:#fcb69f;text-shadow:1px 1px 3px #000;}
+.promptText{white-space:pre-wrap;font-size:14px;opacity:0.95;color:#fff;}
+.copyBtn{
+  margin-top:16px;
+  background:linear-gradient(135deg,#a1c4fd,#c2e9fb,#ffecd2);
+  padding:8px 16px;
+  border-radius:10px;
+  color:#000;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+  transition:0.3s;
+}
+.copyBtn.copied{background:rgba(100,100,100,0.8);color:#fff;}
+.copyBtn:hover{transform:translateY(-2px);}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>古月AI智能体 · 转角式创意商业门头设计提示词生成器</h1>
+
+<div class="card">
+<label>请输入门头行业</label>
+<input id="industry" placeholder="例如：咖啡店、餐饮店、零售店">
+<button class="generate" onclick="generate()">生成20组转角式创意门头提示词</button>
+</div>
+
+<div id="results" class="results"></div>
+</div>
+
+<script>
+function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+let assistTexts=[
+  "网红吸睛","记忆点强","创意十足","双面展示","连贯造型","视觉延伸","品牌特色","可落地施工","细节丰富","商业实景",
+  "正面平视","无遮挡","日光自然","高级质感","色彩自然","立体感强","光影真实","材质真实","写实效果","完全施工参考"
+];
+
+let materials=[
+  "铝单板转印","GRC构件","发光冲孔板","亚克力通体发光字","艺术涂料"
+];
+
+function generate(){
+  let industry=document.getElementById("industry").value.trim();
+  if(!industry){alert("请输入门头行业");return;}
+  let container=document.getElementById("results");
+  container.innerHTML="";
+  
+  for(let i=1;i<=20;i++){
+    let assist1=rand(assistTexts);
+    let assist2=rand(assistTexts);
+    let assist3=rand(assistTexts);
+    while(assist2===assist1) assist2=rand(assistTexts);
+    while(assist3===assist1 || assist3===assist2) assist3=rand(assistTexts);
+    let material=rand(materials);
+    
+    let text=`场景视角：白天自然光，街道转角位置，完整展示门头正立面和转角侧面，正面平视略带转角透视，无遮挡
+风格：转角式创意门头，利用建筑转角进行双面设计、连贯造型、视觉延伸感强、网红吸睛
+行业：${industry}
+落地材质：${material}
+文字创意：品牌店名+主营品类+创意标语，根据转角双面或多面展示，艺术字体
+灯光：日间清晰见光，转角轮廓灯带、嵌入式线条灯
+画质：8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考
+辅助信息：${assist1}，${assist2}，${assist3}`;
+    
+    let card=document.createElement("div");
+    card.className="promptCard";
+    card.innerHTML=`
+      <div class="promptTitle">提示词 #${i}</div>
+      <div class="promptText">${text}</div>
+      <button class="copyBtn">复制提示词</button>
+    `;
+    let btn=card.querySelector("button");
+    btn.onclick=function(){
+      navigator.clipboard.writeText(text);
+      btn.innerText="已复制";
+      btn.classList.add("copied");
+      setTimeout(()=>{
+        btn.innerText="复制提示词";
+        btn.classList.remove("copied");
+      },3000);
+    };
+    container.appendChild(card);
+  }
+}
+</script>
+</body>
+</html>
