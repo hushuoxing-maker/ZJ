@@ -3,160 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>古月AI智能体 · 转角式创意商业门头设计提示词生成器</title>
+<title>转角式创意门头生成器 · 古月AI</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Microsoft YaHei",sans-serif;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Microsoft YaHei",sans-serif;
+}
+
 body{
-  background: linear-gradient(135deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb);
-  background-size: 400% 400%;
-  animation: gradientBG 20s ease infinite;
   min-height:100vh;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
   color:#fff;
-  padding:60px;
-}
-@keyframes gradientBG{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
-.container{max-width:1200px;margin:auto;}
-h1{text-align:center;font-size:32px;margin-bottom:40px;font-weight:800;text-shadow:2px 2px 6px rgba(0,0,0,0.6);}
-.card{
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(20px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   padding:30px;
-  border-radius:25px;
-  border:2px solid;
-  border-image: linear-gradient(45deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb) 1;
-  box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* 标题 */
+.title{
+  font-size:32px;
+  font-weight:bold;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,#00f2fe,#4facfe,#00f2fe);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.subtitle{
+  font-size:14px;
+  opacity:.8;
   margin-bottom:30px;
-  transition:0.3s;
 }
-.card:hover{transform:translateY(-3px) scale(1.02);}
-label{font-size:14px;opacity:0.9;color:#fff;}
+
+/* 输入区 */
+.input-box{
+  width:90%;
+  max-width:800px;
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
 input{
-  width:100%;
+  flex:1;
   padding:14px;
-  margin-top:8px;
-  margin-bottom:18px;
-  background:rgba(0,0,0,0.4);
-  border:1px solid #fff;
-  border-radius:12px;
-  color:white;
+  border:none;
+  border-radius:10px;
   font-size:16px;
+  outline:none;
+  background:rgba(255,255,255,0.1);
+  color:#fff;
 }
+
+input::placeholder{
+  color:#ccc;
+}
+
 button{
   padding:14px 20px;
   border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-size:16px;
-  font-weight:700;
-  background: linear-gradient(135deg,#ffecd2,#fcb69f,#a1c4fd,#c2e9fb);
-  color:#000;
-  box-shadow:0 6px 18px rgba(0,0,0,0.5);
-  transition:0.3s;
-}
-button:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,0.6);}
-.generate{width:100%;margin-top:10px;}
-.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(450px,1fr));gap:20px;}
-.promptCard{
-  background:rgba(0,0,0,0.65);
-  border-radius:18px;
-  border-left:5px solid #fcb69f;
-  border-top:5px solid #ffecd2;
-  padding:22px;
-  line-height:1.8;
-  position:relative;
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-  transition:0.3s;
-}
-.promptCard:hover{transform:scale(1.02);}
-.promptTitle{font-size:18px;font-weight:800;margin-bottom:10px;color:#fcb69f;text-shadow:1px 1px 3px #000;}
-.promptText{white-space:pre-wrap;font-size:14px;opacity:0.95;color:#fff;}
-.copyBtn{
-  margin-top:16px;
-  background:linear-gradient(135deg,#a1c4fd,#c2e9fb,#ffecd2);
-  padding:8px 16px;
   border-radius:10px;
-  color:#000;
-  border:none;
   cursor:pointer;
-  font-weight:700;
-  transition:0.3s;
+  font-weight:bold;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  color:#fff;
+  transition:.3s;
 }
-.copyBtn.copied{background:rgba(100,100,100,0.8);color:#fff;}
-.copyBtn:hover{transform:translateY(-2px);}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* 输出区 */
+.result{
+  width:90%;
+  max-width:1000px;
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+/* 每条提示词 */
+.card{
+  background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));
+  padding:16px;
+  border-radius:12px;
+  position:relative;
+  line-height:1.6;
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+/* 复制按钮 */
+.copy-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  padding:6px 10px;
+  font-size:12px;
+  border-radius:6px;
+  background:linear-gradient(135deg,#ff7e5f,#feb47b);
+  cursor:pointer;
+}
+
+/* 滚动条优化 */
+::-webkit-scrollbar{
+  width:6px;
+}
+::-webkit-scrollbar-thumb{
+  background:#888;
+  border-radius:10px;
+}
 </style>
 </head>
+
 <body>
-<div class="container">
-<h1>古月AI智能体 · 转角式创意商业门头设计提示词生成器</h1>
 
-<div class="card">
-<label>请输入门头行业</label>
-<input id="industry" placeholder="例如：咖啡店、餐饮店、零售店">
-<button class="generate" onclick="generate()">生成20组转角式创意门头提示词</button>
+<div class="title">转角式创意门头生成器</div>
+<div class="subtitle">古月AI智能体 · 真实可施工 · 转角门头设计专用</div>
+
+<div class="input-box">
+  <input id="input" placeholder="请输入：行业 + 门头名称（例如：咖啡店 星角咖啡）">
+  <button onclick="generate()">生成方案</button>
 </div>
 
-<div id="results" class="results"></div>
-</div>
+<div class="result" id="result"></div>
 
 <script>
-function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
-
-let assistTexts=[
-  "网红吸睛","记忆点强","创意十足","双面展示","连贯造型","视觉延伸","品牌特色","可落地施工","细节丰富","商业实景",
-  "正面平视","无遮挡","日光自然","高级质感","色彩自然","立体感强","光影真实","材质真实","写实效果","完全施工参考"
-];
-
-let materials=[
-  "铝单板转印","GRC构件","发光冲孔板","亚克力通体发光字","艺术涂料"
-];
 
 function generate(){
-  let industry=document.getElementById("industry").value.trim();
-  if(!industry){alert("请输入门头行业");return;}
-  let container=document.getElementById("results");
-  container.innerHTML="";
-  
-  for(let i=1;i<=20;i++){
-    let assist1=rand(assistTexts);
-    let assist2=rand(assistTexts);
-    let assist3=rand(assistTexts);
-    while(assist2===assist1) assist2=rand(assistTexts);
-    while(assist3===assist1 || assist3===assist2) assist3=rand(assistTexts);
-    let material=rand(materials);
-    
-    let text=`场景视角：白天自然光，街道转角位置，完整展示门头正立面和转角侧面，正面平视略带转角透视，无遮挡
-风格：转角式创意门头，利用建筑转角进行双面设计、连贯造型、视觉延伸感强、网红吸睛
-行业：${industry}
-落地材质：${material}
-文字创意：品牌店名+主营品类+创意标语，根据转角双面或多面展示，艺术字体
-灯光：日间清晰见光，转角轮廓灯带、嵌入式线条灯
-画质：8K高清，商业写实效果图，细节丰富，色彩自然，可直接施工参考
-辅助信息：${assist1}，${assist2}，${assist3}`;
-    
-    let card=document.createElement("div");
-    card.className="promptCard";
-    card.innerHTML=`
-      <div class="promptTitle">提示词 #${i}</div>
-      <div class="promptText">${text}</div>
-      <button class="copyBtn">复制提示词</button>
+  const val = document.getElementById("input").value;
+  if(!val){
+    alert("请输入行业+门头名称");
+    return;
+  }
+
+  const resultBox = document.getElementById("result");
+  resultBox.innerHTML = "";
+
+  const styles = [
+    "现代极简","轻奢金属","工业风","潮流网红","未来科技",
+    "自然木质","艺术装置风","几何解构","高级灰设计","品牌连锁风"
+  ];
+
+  const materials = [
+    "铝单板转印","GRC构件","发光冲孔板","艺术涂料","金属拉丝铝板",
+    "微水泥","玻璃幕墙","不锈钢包边","亚克力板","石材饰面"
+  ];
+
+  const slogans = [
+    "城市灵感空间","转角遇见美好","年轻人的聚集地",
+    "生活方式集合","创意无边界","潮流新地标",
+    "品质生活体验","发现你的灵感","城市能量中心","让空间会说话"
+  ];
+
+  for(let i=0;i<20;i++){
+
+    let text = `
+${val}，${styles[i%styles.length]}转角式创意门头设计，白天自然光环境，街道转角建筑结构，
+完整展示门头正立面和转角侧面，正面平视视角略带转角透视，无任何遮挡，
+利用建筑转角进行双面延伸设计，视觉连贯，吸引力强，
+材质采用${materials[i%materials.length]}结合发光冲孔板与艺术涂料，
+结构真实可施工，龙骨支撑合理，
+门头包含品牌名称+主营品类+标语「${slogans[i%10]}」，
+双面字体排布，艺术字体设计，
+亚克力通体发光字结合嵌入式线条灯与转角轮廓灯带，
+日间清晰可见，层次丰富，
+8K高清，商业写实效果图，真实街景环境，可直接施工参考
     `;
-    let btn=card.querySelector("button");
-    btn.onclick=function(){
-      navigator.clipboard.writeText(text);
-      btn.innerText="已复制";
-      btn.classList.add("copied");
-      setTimeout(()=>{
-        btn.innerText="复制提示词";
-        btn.classList.remove("copied");
-      },3000);
-    };
-    container.appendChild(card);
+
+    let div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = text + `<div class="copy-btn" onclick="copyText(this)">复制</div>`;
+
+    resultBox.appendChild(div);
   }
 }
+
+function copyText(btn){
+  const text = btn.parentNode.innerText.replace("复制","");
+  navigator.clipboard.writeText(text);
+
+  btn.innerText = "已复制";
+  setTimeout(()=>{
+    btn.innerText = "复制";
+  },2000);
+}
+
 </script>
+
 </body>
 </html>
